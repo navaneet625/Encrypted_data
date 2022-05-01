@@ -4,10 +4,14 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap" rel="stylesheet">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
 	<style>
 		table {
 			border-collapse: collapse;
 			width: 100%;
+			max-width:  450px;
+			margin-left: 390;
 		}
 		th, td {
 			text-align: left;
@@ -16,20 +20,27 @@
 		tr:nth-child(even) {
 			background-color: #D6EEEE;
 		}
+		tr:nth-child(odd) {
+			background-color: forestgreen;
+		}
 	</style>
 
 	<title>Data</title>
 </head>
 <body>
 	<table>
-		<tr>
-			<th>User</th>
-			<th>Data</th>
+		<tr class="vaibhav">
+			<th><center>User </center> </th>
+			<th><center> Data </center></th>
 		</tr>
 		{% for item in items %}
 		<tr>
-			<td class="c1">{{item.username}}</td>
-			<td class="c2"style="cursor: pointer;"><a href="/download?username={{item.username}}&dataname={{item.dataname}}" target="blank">{{item.dataname}}</a></td>
+			<td class="c1"><center>{{item.username}}</center></td>
+			<td class="c2"style="cursor: pointer;"><a href="/download?username={{item.username}}&dataname={{item.dataname}}" target="blank">
+			<center>
+			{{item.dataname}}
+			</center>
+		</a></td>
 		</tr>
 		{% endfor %}
 		<script src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -54,7 +65,8 @@
 			}
 		</script>
 	</table>
-	<p><a href="{{url_for('dashboard')}}">Upload</a></p>
-	<p><a href="{{url_for('logout')}}">Logout</a></p>
+	<p><a class="the-form1" href="{{url_for('home')}}">Home</a></p>
+	<p><a class="the-form1" href="{{url_for('dashboard')}}">Upload</a></p>
+	<p><a class="the-form1" href="{{url_for('logout')}}">Logout</a></p>
 </body>
 </html>
