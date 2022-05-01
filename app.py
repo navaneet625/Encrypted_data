@@ -1,13 +1,11 @@
-from flask import Flask ,render_template ,url_for,redirect,send_file, request, session
+from flask import Flask ,render_template ,url_for,redirect,send_file, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin,login_user,LoginManager,login_required,logout_user,current_user
+from flask_login import UserMixin,login_user,LoginManager,login_required,logout_user
 from flask_wtf import FlaskForm
-from rsa import PrivateKey, PublicKey
 from wtforms import StringField,PasswordField,SubmitField, FileField
 from wtforms.validators import InputRequired,Length,ValidationError
 from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
-import werkzeug
 import os,rsa_utils
 
 app = Flask(__name__)
@@ -64,10 +62,14 @@ class UploadFileform(FlaskForm):
 	submit = SubmitField("upload file")
 
 @app.route('/',methods=('GET','POST'))
+@app.route('/home',methods=('GET','POST'))
 def home():
 	return render_template('home.html')
 
+
+
 @app.route('/dashboard',methods=('GET','POST'))
+
 @login_required
 def dashboard():
 	form = UploadFileform()
@@ -139,7 +141,13 @@ def login():
 		if user:
 			if bcrypt.check_password_hash(user.password,form.password.data):
 				login_user(user)
-				return redirect(url_for('dashboard'))			
+				return redirect(url_for('dashboard'))
+		else:
+			err_msg = "User doesn't exist"
+			flash(err_msg,"error")
+			print(err_msg)
+			return redirect("/login")
+
 	return render_template('login.html',form=form)
 
 @app.route('/register',methods=('GET','POST'))
